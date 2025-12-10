@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Menu, X, Compass } from "lucide-react";
+import { Menu, X, Compass, Plane, Hotel, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface NavbarProps {
@@ -19,6 +19,13 @@ const Navbar = ({ onStartPlanning }: NavbarProps) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const navItems = [
+    { label: "AI Assistant", icon: Sparkles },
+    { label: "Smart Itinerary", icon: Compass },
+    { label: "Flights", icon: Plane },
+    { label: "Hotels", icon: Hotel },
+  ];
+
   return (
     <motion.nav
       initial={{ y: -100 }}
@@ -32,8 +39,8 @@ const Navbar = ({ onStartPlanning }: NavbarProps) => {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:h-20">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2">
-          <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${isScrolled ? "bg-coral" : "bg-primary-foreground/20 backdrop-blur-sm"}`}>
-            <Compass className={`h-6 w-6 ${isScrolled ? "text-primary-foreground" : "text-primary-foreground"}`} />
+          <div className={`flex h-9 w-9 items-center justify-center rounded-lg ${isScrolled ? "bg-teal" : "bg-teal"}`}>
+            <Compass className="h-5 w-5 text-primary-foreground" />
           </div>
           <span className={`font-display text-xl font-bold ${isScrolled ? "text-foreground" : "text-primary-foreground"}`}>
             Wanderlust
@@ -41,23 +48,34 @@ const Navbar = ({ onStartPlanning }: NavbarProps) => {
         </a>
 
         {/* Desktop Nav */}
-        <div className="hidden items-center gap-8 md:flex">
-          {["Destinations", "How It Works", "About"].map((item) => (
+        <div className="hidden items-center gap-1 md:flex">
+          {navItems.map((item) => (
             <a
-              key={item}
-              href={`#${item.toLowerCase().replace(" ", "-")}`}
-              className={`text-sm font-medium transition-colors hover:text-coral ${
-                isScrolled ? "text-foreground" : "text-primary-foreground/90"
+              key={item.label}
+              href={`#${item.label.toLowerCase().replace(" ", "-")}`}
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors hover:bg-primary-foreground/10 ${
+                isScrolled ? "text-foreground hover:text-coral" : "text-primary-foreground/90"
               }`}
             >
-              {item}
+              <item.icon className="h-4 w-4" />
+              {item.label}
             </a>
           ))}
+        </div>
+
+        {/* Right side buttons */}
+        <div className="hidden items-center gap-3 md:flex">
           <Button
-            variant={isScrolled ? "hero" : "heroOutline"}
+            variant="ghost"
+            className={`${isScrolled ? "text-foreground" : "text-primary-foreground"}`}
+          >
+            Sign In
+          </Button>
+          <Button
+            variant="teal"
             onClick={onStartPlanning}
           >
-            Start Planning
+            Get Started
           </Button>
         </div>
 
@@ -77,20 +95,26 @@ const Navbar = ({ onStartPlanning }: NavbarProps) => {
           animate={{ opacity: 1, y: 0 }}
           className="border-t border-border/20 bg-card/95 px-4 py-6 backdrop-blur-md md:hidden"
         >
-          <div className="flex flex-col gap-4">
-            {["Destinations", "How It Works", "About"].map((item) => (
+          <div className="flex flex-col gap-2">
+            {navItems.map((item) => (
               <a
-                key={item}
-                href={`#${item.toLowerCase().replace(" ", "-")}`}
-                className="text-foreground hover:text-coral"
+                key={item.label}
+                href={`#${item.label.toLowerCase().replace(" ", "-")}`}
+                className="flex items-center gap-3 rounded-lg px-3 py-3 text-foreground hover:bg-muted hover:text-coral"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                {item}
+                <item.icon className="h-5 w-5" />
+                {item.label}
               </a>
             ))}
-            <Button variant="hero" onClick={onStartPlanning} className="mt-2">
-              Start Planning
-            </Button>
+            <div className="mt-4 flex flex-col gap-2">
+              <Button variant="ghost" className="justify-start">
+                Sign In
+              </Button>
+              <Button variant="teal" onClick={onStartPlanning}>
+                Get Started
+              </Button>
+            </div>
           </div>
         </motion.div>
       )}
