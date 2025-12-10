@@ -1,166 +1,143 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { Search, MapPin, Calendar, Users, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero-travel.jpg";
+
+// Import destination images
+import indiaImg from "@/assets/destinations/india.webp";
+import wallImg from "@/assets/destinations/wall.webp";
+import towerImg from "@/assets/destinations/tower.webp";
+import libertyImg from "@/assets/destinations/liberty.webp";
+import sydneyImg from "@/assets/destinations/sydney.webp";
+import everestImg from "@/assets/destinations/everest.webp";
+import stonehengeImg from "@/assets/destinations/stonehenge.webp";
+import colosseumImg from "@/assets/destinations/colosseum.webp";
+import pyramidImg from "@/assets/destinations/pyramid.webp";
+import machuImg from "@/assets/destinations/machu.webp";
+import tajImg from "@/assets/destinations/taj.webp";
 
 interface HeroProps {
   onStartPlanning: () => void;
 }
 
+const topRowImages = [
+  { src: indiaImg, alt: "India Gate" },
+  { src: wallImg, alt: "Great Wall of China" },
+  { src: towerImg, alt: "Eiffel Tower" },
+  { src: libertyImg, alt: "Statue of Liberty" },
+  { src: sydneyImg, alt: "Sydney Opera House" },
+  { src: everestImg, alt: "Mount Everest" },
+  { src: stonehengeImg, alt: "Stonehenge" },
+];
+
+const bottomRowImages = [
+  { src: colosseumImg, alt: "Colosseum" },
+  { src: pyramidImg, alt: "Egyptian Pyramids" },
+  { src: machuImg, alt: "Machu Picchu" },
+  { src: tajImg, alt: "Taj Mahal" },
+  { src: indiaImg, alt: "India Gate" },
+  { src: wallImg, alt: "Great Wall of China" },
+  { src: towerImg, alt: "Eiffel Tower" },
+];
+
 const Hero = ({ onStartPlanning }: HeroProps) => {
-  const [destination, setDestination] = useState("");
-
-  const popularDestinations = ["Paris", "Tokyo", "Bali", "New York", "Santorini"];
-
   return (
-    <section className="relative min-h-screen overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <img
-          src={heroImage}
-          alt="Beautiful travel destination"
-          className="h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-foreground/60 via-foreground/40 to-foreground/70" />
-      </div>
-
-      {/* Floating Elements */}
-      <motion.div
-        className="absolute top-20 left-[10%] h-20 w-20 rounded-full bg-gold/30 blur-2xl"
-        animate={{ y: [0, -20, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-40 right-[15%] h-32 w-32 rounded-full bg-coral/20 blur-3xl"
-        animate={{ y: [0, 20, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-      />
-
+    <section className="relative min-h-screen overflow-hidden bg-background">
+      {/* Dark overlay background */}
+      <div className="absolute inset-0 bg-foreground" />
+      
       {/* Content */}
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-4 py-20 text-center">
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-4 pt-24 pb-8">
+        {/* Hero Text */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="mb-6"
+          className="mb-4 text-center"
         >
-          <span className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/10 px-4 py-2 text-sm font-medium text-primary-foreground backdrop-blur-sm">
-            <Sparkles className="h-4 w-4 text-gold" />
-            AI-Powered Travel Planning
-          </span>
+          <h1 className="font-display text-4xl font-bold leading-tight text-muted-foreground/70 md:text-5xl lg:text-6xl">
+            Embark on Electrifying
+          </h1>
+          <h2 className="font-display text-4xl font-bold leading-tight text-muted-foreground/70 md:text-5xl lg:text-6xl">
+            Adventures with
+          </h2>
         </motion.div>
 
-        <motion.h1
+        <motion.h2
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="mb-6 font-display text-5xl font-bold leading-tight text-primary-foreground md:text-6xl lg:text-7xl"
+          className="mb-6 font-display text-6xl font-bold text-primary md:text-7xl lg:text-8xl"
         >
-          Your Journey,{" "}
-          <span className="relative">
-            <span className="text-gradient-sunset bg-clip-text">Perfectly Crafted</span>
-          </span>
-        </motion.h1>
+          Wanderlust
+        </motion.h2>
 
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mb-10 max-w-2xl text-lg text-primary-foreground/80 md:text-xl"
+          className="mb-8 text-lg text-muted-foreground/60"
         >
-          Let our AI companion build your dream itinerary. From hidden gems to local favorites,
-          we create personalized travel experiences just for you.
+          Your trusted trip planner and adventure guide.
         </motion.p>
 
-        {/* Search Box */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="w-full max-w-2xl"
         >
-          <div className="rounded-2xl bg-card/95 p-2 shadow-lg backdrop-blur-md">
-            <div className="flex flex-col gap-2 md:flex-row">
-              <div className="relative flex-1">
-                <MapPin className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-                <input
-                  type="text"
-                  placeholder="Where do you want to go?"
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                  className="h-14 w-full rounded-xl bg-muted/50 pl-12 pr-4 text-foreground placeholder:text-muted-foreground focus:bg-muted focus:outline-none focus:ring-2 focus:ring-primary/50"
-                />
-              </div>
-              <Button
-                variant="hero"
-                size="xl"
-                onClick={onStartPlanning}
-                className="shrink-0"
-              >
-                <Search className="h-5 w-5" />
-                Start Planning
-              </Button>
-            </div>
-          </div>
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={onStartPlanning}
+            className="border-border/50 bg-transparent text-primary-foreground hover:bg-primary-foreground/10"
+          >
+            Plan a Trip, It's Free
+          </Button>
         </motion.div>
 
-        {/* Popular Destinations */}
+        {/* Image Carousels */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="mt-8 flex flex-wrap items-center justify-center gap-2"
+          transition={{ duration: 1, delay: 0.5 }}
+          className="mt-12 w-full overflow-hidden"
         >
-          <span className="text-sm text-primary-foreground/60">Popular:</span>
-          {popularDestinations.map((dest) => (
-            <button
-              key={dest}
-              onClick={() => setDestination(dest)}
-              className="rounded-full bg-primary-foreground/10 px-4 py-1.5 text-sm text-primary-foreground backdrop-blur-sm transition-all hover:bg-primary-foreground/20"
-            >
-              {dest}
-            </button>
-          ))}
-        </motion.div>
-
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-16 grid grid-cols-3 gap-8 md:gap-16"
-        >
-          {[
-            { value: "50K+", label: "Happy Travelers" },
-            { value: "200+", label: "Destinations" },
-            { value: "4.9", label: "User Rating" },
-          ].map((stat) => (
-            <div key={stat.label} className="text-center">
-              <div className="font-display text-3xl font-bold text-primary-foreground md:text-4xl">
-                {stat.value}
-              </div>
-              <div className="text-sm text-primary-foreground/60">{stat.label}</div>
+          {/* Top Row - scrolls left */}
+          <div className="mb-4 overflow-hidden">
+            <div className="carousel-track-left flex gap-4">
+              {[...topRowImages, ...topRowImages].map((img, index) => (
+                <div
+                  key={`top-${index}`}
+                  className="h-32 w-48 flex-shrink-0 overflow-hidden rounded-xl md:h-40 md:w-60"
+                >
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
+                  />
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Bottom Row - scrolls right */}
+          <div className="overflow-hidden">
+            <div className="carousel-track-right flex gap-4">
+              {[...bottomRowImages, ...bottomRowImages].map((img, index) => (
+                <div
+                  key={`bottom-${index}`}
+                  className="h-32 w-48 flex-shrink-0 overflow-hidden rounded-xl md:h-40 md:w-60"
+                >
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-110"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </motion.div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="flex h-10 w-6 items-start justify-center rounded-full border-2 border-primary-foreground/30 p-1"
-        >
-          <div className="h-2 w-1 rounded-full bg-primary-foreground/60" />
-        </motion.div>
-      </motion.div>
     </section>
   );
 };
