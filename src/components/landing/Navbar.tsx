@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Menu, X, Compass, Plane, Hotel, Sparkles, User, LogOut, ChevronDown } from "lucide-react";
+import { Menu, X, Compass, Plane, Hotel, User, LogOut, ChevronDown } from "lucide-react";
 import LogoLight from "@/assets/LogoLight";
 import LogoDark from "@/assets/LogoDark";
 import { Button } from "@/components/ui/button";
@@ -34,7 +34,6 @@ const Navbar = ({ onStartPlanning }: NavbarProps) => {
   }, []);
 
   const navItems = [
-    { label: "AI Assistant", icon: Sparkles, href: "/ai-assistant" },
     { label: "Smart Itinerary", icon: Compass, href: "/smart-itinerary" },
     { label: "Flights", icon: Plane, href: "#flights" },
     { label: "Hotels", icon: Hotel, href: "#hotels" },
@@ -113,11 +112,6 @@ const Navbar = ({ onStartPlanning }: NavbarProps) => {
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuItem className="text-muted-foreground text-xs">
                   {user.email}
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => navigate("/ai-assistant")}>
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  AI Assistant
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/smart-itinerary")}>
                   <Compass className="mr-2 h-4 w-4" />
