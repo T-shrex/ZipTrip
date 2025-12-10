@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   MapPin,
@@ -15,6 +16,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TripData } from "./TripPlanner";
+import ItineraryPlannerChatbot, { PlannerActivity, PlannerDay } from "./ItineraryPlannerChatbot";
+import ChatbaseWidget from "@/components/integrations/ChatbaseWidget";
 
 interface ItineraryViewProps {
   tripData: TripData;
@@ -23,7 +26,7 @@ interface ItineraryViewProps {
 const ItineraryView = ({ tripData }: ItineraryViewProps) => {
   // Generate a sample itinerary based on selections
   const generateItinerary = () => {
-    const days = [];
+    const days: PlannerDay[] = [];
     const placesPerDay = Math.ceil(tripData.selectedPlaces.length / 2);
     const restaurantsPerDay = Math.ceil(tripData.selectedRestaurants.length / 2);
 
@@ -37,7 +40,7 @@ const ItineraryView = ({ tripData }: ItineraryViewProps) => {
         day * restaurantsPerDay
       );
 
-      const activities = [];
+      const activities: PlannerActivity[] = [];
 
       // Morning
       activities.push({
@@ -118,7 +121,19 @@ const ItineraryView = ({ tripData }: ItineraryViewProps) => {
     return days;
   };
 
-  const itinerary = generateItinerary();
+  const [itinerary, setItinerary] = useState<PlannerDay[]>(generateItinerary());
+
+  useEffect(() => {
+    setItinerary(generateItinerary());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    tripData.destination,
+    tripData.selectedPlaces,
+    tripData.selectedRestaurants,
+    tripData.selectedHotel,
+    tripData.style,
+    tripData.travelType,
+  ]);
 
   const periodIcons = {
     morning: Sun,
@@ -208,7 +223,7 @@ const ItineraryView = ({ tripData }: ItineraryViewProps) => {
             <div className="space-y-4">
               {dayData.activities.map((activity, actIndex) => {
                 const PeriodIcon = periodIcons[activity.period as keyof typeof periodIcons];
-                const colorClass = typeColors[activity.type as keyof typeof typeColors];
+                const colorClass = typeColors[activity.type as keyof typeof typeColors] || "bg-muted text-foreground border-border";
 
                 return (
                   <motion.div
@@ -278,6 +293,18 @@ const ItineraryView = ({ tripData }: ItineraryViewProps) => {
           Regenerate
         </Button>
       </motion.div>
+
+      <div className="mt-10 space-y-6">
+        <ItineraryPlannerChatbot itinerary={itinerary} onUpdate={setItinerary} />
+
+        <div className="space-y-3">
+          <h3 className="text-lg font-display font-semibold text-foreground">Chatbase Assistant</h3>
+          <p className="text-muted-foreground">
+            Use the floating Chatbase widget to chat about your plan, ask for changes, or request ideas beyond add/remove.
+          </p>
+          <ChatbaseWidget />
+        </div>
+      </div>
 
       {/* Why This Works */}
       <motion.div

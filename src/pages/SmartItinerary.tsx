@@ -8,6 +8,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { apiItineraries } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "@/components/landing/Navbar";
+import ChatbaseWidget from "@/components/integrations/ChatbaseWidget";
+import SmartItineraryChatbot from "@/components/planning/SmartItineraryChatbot";
 
 interface ItineraryDay {
   id: string;
@@ -270,6 +272,24 @@ const SmartItinerary = () => {
               </Button>
             </div>
           )}
+
+          <div className="mt-12 space-y-6">
+            <div className="space-y-3">
+              <h2 className="text-xl font-display font-semibold text-foreground">Need quick tweaks with AI?</h2>
+              <p className="text-muted-foreground">
+                Ask the smart assistant to add or remove activities, then use the Chatbase widget for deeper help.
+              </p>
+              <SmartItineraryChatbot itinerary={itinerary} onUpdate={setItinerary} />
+            </div>
+
+            <div className="space-y-3">
+              <h3 className="text-lg font-display font-semibold text-foreground">Chatbase Assistant</h3>
+              <p className="text-muted-foreground">
+                Use the floating Chatbase widget to request itinerary changes, ask questions, or continue the conversation.
+              </p>
+              <ChatbaseWidget />
+            </div>
+          </div>
         </div>
       </div>
     </div>
