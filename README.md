@@ -1,73 +1,357 @@
-# Welcome to your Lovable project
+🚀 ZIPTRIP AI
 
-## Project info
+Context-Aware AI Travel Planning Engine
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Hyper-personalized itinerary generation using Gemini + Google Maps + Intelligent Ranking
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+🌍 What Is ZIPTRIP AI?
 
-**Use Lovable**
+ZIPTRIP AI is a next-generation travel intelligence engine that:
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+✔ Understands user preferences
+✔ Learns from reviews & experiences
+✔ Ranks hotels, activities & food spots intelligently
+✔ Generates optimized day-wise itineraries
+✔ Computes real routes via Google Maps
+✔ Allows real-time conversational itinerary edits
+✔ Exports downloadable plans
 
-Changes made via Lovable will be committed automatically to this repo.
+Built for **high-end hackathons**, scalability, and production-level AI systems.
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+🧠 Architecture Overview
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+Frontend (Lovable.dev)
+        |
+        |
+     REST API
+        |
+        v
+Backend (FastAPI)
+ ├── Gemini AI Engine
+ ├── Google Places API
+ ├── Google Directions API
+ ├── Ranking Engine
+ ├── Personalization Engine
+ ├── Route Optimizer
+ └── PDF Export Engine
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+# ⚙️ Tech Stack
 
-**Use GitHub Codespaces**
+| Layer      | Tech                       |
+| ---------- | -------------------------- |
+| Backend    | FastAPI                    |
+| AI Engine  | Gemini 1.5 Pro             |
+| Maps       | Google Places + Directions |
+| Ranking    | Custom Weighted Scoring    |
+| PDF        | ReportLab                  |
+| Deployment | Render / Railway           |
+| Language   | Python 3.10+               |
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+📦 PROJECT STRUCTURE
 
-This project is built with:
+```
+ziptrip-ai/
+│
+├── main.py
+├── ai_engine.py
+├── ranking_engine.py
+├── maps_engine.py
+├── itinerary_engine.py
+├── chat_engine.py
+├── pdf_engine.py
+├── requirements.txt
+├── .env
+└── README.md
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+🔐 STEP 1 — GET API KEYS
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+1️⃣ Gemini API
 
-## Can I connect a custom domain to my Lovable project?
+Get from:
+[https://makersuite.google.com/app/apikey](https://makersuite.google.com/app/apikey)
 
-Yes, you can!
+2️⃣ Google Maps API
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Enable:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+* Places API
+* Directions API
+* Maps JavaScript API
+
+From:
+[https://console.cloud.google.com](https://console.cloud.google.com)
+
+---
+
+🛠 STEP 2 — INSTALL
+
+```bash
+git clone <your_repo>
+cd ziptrip-ai
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+---
+
+📄 requirements.txt
+
+```txt
+fastapi
+uvicorn
+google-generativeai
+python-dotenv
+requests
+reportlab
+pydantic
+```
+
+---
+
+🔑 STEP 3 — CREATE .env
+
+```env
+GEMINI_API_KEY=your_gemini_key_here
+GOOGLE_MAPS_API_KEY=your_maps_key_here
+```
+
+---
+
+🚀 STEP 4 — RUN
+
+```bash
+uvicorn main:app --reload
+```
+
+Backend runs at:
+
+```
+http://127.0.0.1:8000
+```
+
+---
+
+🧠 HOW THE AI WORKS
+
+1️⃣ User submits:
+
+* Location
+* Budget
+* Preferences
+* Dietary restrictions
+* Selected hotels/activities/food
+
+2️⃣ System does:
+
+ 🔎 Data Retrieval
+
+* Fetch hotels via Google Places
+* Fetch attractions
+* Fetch food spots
+
+📊 Ranking Engine
+
+Custom weighted scoring:
+
+```
+score = 
+  (rating × 0.4)
++ (review_count_weight × 0.2)
++ (distance_weight × 0.2)
++ (preference_match × 0.2)
+```
+
+🤖 AI Personalization (Gemini)
+
+* Analyzes reviews
+* Extracts sentiment
+* Filters by user vibe
+* Builds structured itinerary
+
+🗺 Route Optimization
+
+Google Directions API:
+
+* Computes best routes
+* Gets duration + polyline
+* Orders locations efficiently
+
+💬 Chat Re-Planning
+
+User: “I don’t eat fish”
+System:
+
+* Re-ranks restaurants
+* Re-generates food section
+* Keeps rest intact
+
+---
+
+📡 API ENDPOINTS
+
+---
+
+🔹 1. Generate Hotels
+
+POST `/hotels`
+
+```json
+{
+  "location": "Paris",
+  "budget": "mid",
+  "preferences": ["romantic", "walkable"]
+}
+```
+
+---
+
+🔹 2. Generate Attractions
+
+POST `/activities`
+
+```json
+{
+  "location": "Paris",
+  "selected_hotel": "Hotel Le Meurice"
+}
+```
+
+---
+
+🔹 3. Generate Food Spots
+
+POST `/restaurants`
+
+```json
+{
+  "location": "Paris",
+  "diet": "vegetarian"
+}
+```
+
+---
+
+🔹 4. Build Final Itinerary
+
+POST `/itinerary`
+
+```json
+{
+  "hotel": {...},
+  "activities": [...],
+  "restaurants": [...]
+}
+```
+
+Returns:
+
+* Day-wise schedule
+* Travel time
+* Route polylines
+* Google Maps links
+
+---
+
+🔹 5. Chat Modification
+
+POST `/chat`
+
+```json
+{
+  "itinerary": {...},
+  "message": "I don't eat fish"
+}
+```
+
+Returns:
+Updated itinerary JSON
+
+---
+
+🔹 6. Download PDF
+
+GET `/download/{itinerary_id}`
+
+Returns:
+📄 Downloadable itinerary
+
+---
+
+🏆 WHY THIS WINS HACKATHONS
+
+✔ Real AI integration
+✔ Real Maps routing
+✔ Intelligent ranking
+✔ Personalization
+✔ Dynamic modification
+✔ Clean architecture
+✔ Scalable microservices structure
+✔ Production-ready deployment
+
+---
+
+🚀 DEPLOY TO RENDER
+
+1. Push to GitHub
+2. Go to [https://render.com](https://render.com)
+3. New Web Service
+4. Connect repo
+5. Build Command:
+
+```bash
+pip install -r requirements.txt
+```
+
+6. Start Command:
+
+```bash
+uvicorn main:app --host 0.0.0.0 --port 10000
+```
+
+7. Add Environment Variables:
+
+* GEMINI_API_KEY
+* GOOGLE_MAPS_API_KEY
+
+---
+
+# 🔥 FUTURE IMPROVEMENTS
+
+* User memory system
+* Vector DB for review embeddings
+* Collaborative filtering
+* Reinforcement learning ranking
+* Multi-day trip optimization
+* Real-time event API integration
+* Weather-aware planning
+* Live booking integration
+
+---
+
+# 🛡 Production Considerations
+
+* Rate limiting
+* API key protection
+* Caching maps results
+* Database persistence
+* User auth (JWT)
+* Monitoring
+* Error fallback logic
+
+
+
+
